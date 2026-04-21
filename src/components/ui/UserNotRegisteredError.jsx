@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,11 +8,18 @@ import { useAuth } from "@/lib/AuthContext";
 import { isSupabaseConfigured } from "@/lib/supabaseClient";
 
 export default function UserNotRegisteredError() {
-  const { authError, signIn } = useAuth();
+  const { authError, signIn, user } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/", { replace: true });
+    }
+  }, [navigate, user]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -24,6 +32,7 @@ export default function UserNotRegisteredError() {
       } else {
         await signIn();
       }
+      navigate("/", { replace: true });
     } catch (error) {
       setErrorMessage(error.message ?? "No se pudo iniciar sesion.");
     } finally {
