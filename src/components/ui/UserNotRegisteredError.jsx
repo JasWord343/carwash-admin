@@ -8,7 +8,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { isSupabaseConfigured } from "@/lib/supabaseClient";
 
 export default function UserNotRegisteredError() {
-  const { authError, signIn, user } = useAuth();
+  const { authError, checkUserAuth, signIn, user } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -27,11 +27,20 @@ export default function UserNotRegisteredError() {
     setErrorMessage("");
 
     try {
+      if (isSupabaseConfigured && (!email.trim() || !password)) {
+        throw new Error("Escribe tu correo y contrasena para entrar.");
+      }
+
       if (isSupabaseConfigured) {
-        await signIn({ email, password });
+        const nextUser = await signIn({ email: email.trim(), password });
+        if (!nextUser) {
+          throw new Error("No se pudo iniciar sesion.");
+        }
       } else {
         await signIn();
       }
+
+      await checkUserAuth();
       navigate("/", { replace: true });
     } catch (error) {
       setErrorMessage(error.message ?? "No se pudo iniciar sesion.");
