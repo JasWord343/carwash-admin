@@ -17,9 +17,9 @@ export default function UserNotRegisteredError() {
 
   useEffect(() => {
     if (user) {
-      navigate("/", { replace: true });
+      window.location.replace("/");
     }
-  }, [navigate, user]);
+  }, [user]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -41,7 +41,7 @@ export default function UserNotRegisteredError() {
       }
 
       await checkUserAuth();
-      navigate("/", { replace: true });
+      window.location.replace("/");
     } catch (error) {
       setErrorMessage(error.message ?? "No se pudo iniciar sesion.");
     } finally {

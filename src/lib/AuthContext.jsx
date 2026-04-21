@@ -60,10 +60,11 @@ export function AuthProvider({ children }) {
       authChecked,
       async signIn(credentials) {
         const nextUser = await base44.auth.login(credentials);
-        setUser(normalizeUser(nextUser));
+        const resolvedUser = isSupabaseConfigured ? await base44.auth.me() : nextUser;
+        setUser(normalizeUser(resolvedUser ?? nextUser));
         setAuthChecked(true);
         setAuthError(null);
-        return nextUser;
+        return resolvedUser ?? nextUser;
       },
       async logout() {
         await base44.auth.logout();
