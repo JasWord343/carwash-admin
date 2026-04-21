@@ -1,20 +1,30 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 
-import { dataApi } from "@/api/localDataClient";
+import { base44 } from "@/api/base44Client";
+import { isSupabaseConfigured, supabase } from "@/lib/supabaseClient";
 
 const AuthContext = createContext(null);
+
+function normalizeUser(user) {
+  return user ?? null;
+}
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
   const [authChecked, setAuthChecked] = useState(false);
+  const [authError, setAuthError] = useState(null);
 
   const refreshUser = async () => {
     setIsLoadingAuth(true);
 
     try {
-      const currentUser = await dataApi.auth.me();
-      setUser(currentUser);
+      const currentUser = await base44.auth.me();
+      setUser(normalizeUser(currentUser));
+      setAuthError(null);
+    } catch (error) {
+      setUser(null);
+      setAuthError(error);
     } finally {
       setIsLoadingAuth(false);
       setAuthChecked(true);
@@ -25,36 +35,47 @@ export function AuthProvider({ children }) {
     refreshUser();
   }, []);
 
+  useEffect(() => {
+    if (!isSupabaseConfigured || !supabase) {
+      return undefined;
+    }
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(() => {
+      refreshUser();
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   const value = useMemo(
     () => ({
       user,
       isAuthenticated: Boolean(user),
       isLoadingAuth,
       isLoadingPublicSettings: false,
-      authError: null,
-      appPublicSettings: { mode: "local" },
+      authError,
+      appPublicSettings: { mode: isSupabaseConfigured ? "supabase" : "local" },
       authChecked,
-      async signIn() {
-        const nextUser = await dataApi.auth.login();
-        setUser(nextUser);
+      async signIn(credentials) {
+        const nextUser = await base44.auth.login(credentials);
+        setUser(normalizeUser(nextUser));
         setAuthChecked(true);
+        setAuthError(null);
         return nextUser;
       },
-      logout() {
-        dataApi.auth.logout();
+      async logout() {
+        await base44.auth.logout();
         setUser(null);
       },
-      navigateToLogin() {
-        return dataApi.auth.login().then((nextUser) => {
-          setUser(nextUser);
-          setAuthChecked(true);
-          return nextUser;
-        });
+      async navigateToLogin() {
+        return null;
       },
       checkUserAuth: refreshUser,
       checkAppState: refreshUser,
     }),
-    [authChecked, isLoadingAuth, user],
+    [authChecked, authError, isLoadingAuth, user],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
