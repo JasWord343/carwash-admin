@@ -35,4 +35,15 @@ npm run build
 ## Nota sobre los datos
 
 Los registros se guardan en el navegador donde abras la app. Si mas adelante quieres que varios usuarios compartan informacion, el siguiente paso es conectar una API o una base de datos real.
+
+## Camino a Supabase
+
+El proyecto ya incluye:
+
+- `.env.example` con las variables necesarias
+- `src/lib/supabaseClient.js` para crear el cliente
+- `supabase/schema.sql` con un esquema inicial
+- `supabase/README.md` con el flujo de configuracion
+
+Cuando tengas tu proyecto creado en Supabase, el siguiente paso es reemplazar la capa actual de `localStorage` por consultas reales a la base compartida.
 >>>>>>> 6d019a9 (feat: carwash admin app)
