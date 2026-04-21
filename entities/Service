@@ -1,0 +1,31 @@
+{
+  "name": "Service",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nombre del servicio"
+    },
+    "description": {
+      "type": "string",
+      "description": "Descripci\u00f3n del servicio"
+    },
+    "price": {
+      "type": "number",
+      "description": "Precio del servicio"
+    },
+    "duration_minutes": {
+      "type": "number",
+      "description": "Duraci\u00f3n estimada en minutos"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Si el servicio est\u00e1 activo"
+    }
+  },
+  "required": [
+    "name",
+    "price"
+  ]
+}

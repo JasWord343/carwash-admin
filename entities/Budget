@@ -1,0 +1,60 @@
+{
+  "name": "Budget",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string",
+      "description": "ID del cliente"
+    },
+    "client_name": {
+      "type": "string",
+      "description": "Nombre del cliente"
+    },
+    "items": {
+      "type": "array",
+      "description": "\u00cdtems del presupuesto",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "quantity": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "total": {
+      "type": "number",
+      "description": "Total del presupuesto"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "sent",
+        "accepted",
+        "rejected"
+      ],
+      "default": "draft",
+      "description": "Estado del presupuesto"
+    },
+    "valid_until": {
+      "type": "string",
+      "format": "date",
+      "description": "V\u00e1lido hasta"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notas"
+    }
+  },
+  "required": [
+    "client_id",
+    "total"
+  ]
+}

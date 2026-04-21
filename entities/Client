@@ -1,0 +1,46 @@
+{
+  "name": "Client",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nombre completo del cliente"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Tel\u00e9fono del cliente"
+    },
+    "email": {
+      "type": "string",
+      "description": "Correo electr\u00f3nico"
+    },
+    "vehicle_brand": {
+      "type": "string",
+      "description": "Marca del veh\u00edculo"
+    },
+    "vehicle_model": {
+      "type": "string",
+      "description": "Modelo del veh\u00edculo"
+    },
+    "vehicle_year": {
+      "type": "string",
+      "description": "A\u00f1o del veh\u00edculo"
+    },
+    "vehicle_color": {
+      "type": "string",
+      "description": "Color del veh\u00edculo"
+    },
+    "vehicle_plates": {
+      "type": "string",
+      "description": "Placas del veh\u00edculo"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notas adicionales"
+    }
+  },
+  "required": [
+    "name",
+    "phone"
+  ]
+}

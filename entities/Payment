@@ -1,0 +1,50 @@
+{
+  "name": "Payment",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string",
+      "description": "ID del cliente"
+    },
+    "client_name": {
+      "type": "string",
+      "description": "Nombre del cliente"
+    },
+    "appointment_id": {
+      "type": "string",
+      "description": "ID de la cita relacionada"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Monto del pago"
+    },
+    "method": {
+      "type": "string",
+      "enum": [
+        "cash",
+        "card",
+        "transfer"
+      ],
+      "description": "M\u00e9todo de pago"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Fecha del pago"
+    },
+    "concept": {
+      "type": "string",
+      "description": "Concepto del pago"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notas"
+    }
+  },
+  "required": [
+    "client_id",
+    "amount",
+    "method",
+    "date"
+  ]
+}

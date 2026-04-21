@@ -1,0 +1,63 @@
+{
+  "name": "Appointment",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string",
+      "description": "ID del cliente"
+    },
+    "client_name": {
+      "type": "string",
+      "description": "Nombre del cliente (para referencia r\u00e1pida)"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Fecha de la cita"
+    },
+    "time": {
+      "type": "string",
+      "description": "Hora de la cita"
+    },
+    "service_type": {
+      "type": "string",
+      "enum": [
+        "service",
+        "package"
+      ],
+      "description": "Tipo: servicio individual o paquete"
+    },
+    "service_id": {
+      "type": "string",
+      "description": "ID del servicio o paquete"
+    },
+    "service_name": {
+      "type": "string",
+      "description": "Nombre del servicio/paquete"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Monto total"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "scheduled",
+        "in_progress",
+        "completed",
+        "cancelled"
+      ],
+      "default": "scheduled",
+      "description": "Estado de la cita"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notas adicionales"
+    }
+  },
+  "required": [
+    "client_id",
+    "date",
+    "time"
+  ]
+}

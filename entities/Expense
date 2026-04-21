@@ -1,0 +1,42 @@
+{
+  "name": "Expense",
+  "type": "object",
+  "properties": {
+    "concept": {
+      "type": "string",
+      "description": "Concepto del gasto"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Monto del gasto"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "supplies",
+        "payroll",
+        "rent",
+        "utilities",
+        "maintenance",
+        "marketing",
+        "other"
+      ],
+      "description": "Categor\u00eda del gasto"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Fecha del gasto"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notas adicionales"
+    }
+  },
+  "required": [
+    "concept",
+    "amount",
+    "category",
+    "date"
+  ]
+}

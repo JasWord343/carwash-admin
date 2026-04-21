@@ -1,0 +1,63 @@
+{
+  "name": "DailyService",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Fecha del servicio"
+    },
+    "client_id": {
+      "type": "string",
+      "description": "ID del cliente"
+    },
+    "client_name": {
+      "type": "string",
+      "description": "Nombre del cliente"
+    },
+    "service_id": {
+      "type": "string",
+      "description": "ID del servicio o paquete"
+    },
+    "service_name": {
+      "type": "string",
+      "description": "Nombre del servicio"
+    },
+    "price": {
+      "type": "number",
+      "description": "Precio cobrado"
+    },
+    "payment_method": {
+      "type": "string",
+      "enum": [
+        "cash",
+        "card",
+        "transfer"
+      ],
+      "description": "M\u00e9todo de pago"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "in_progress",
+        "completed"
+      ],
+      "default": "pending",
+      "description": "Estado del servicio"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notas"
+    },
+    "vehicle_info": {
+      "type": "string",
+      "description": "Informaci\u00f3n del veh\u00edculo"
+    }
+  },
+  "required": [
+    "date",
+    "service_name",
+    "price"
+  ]
+}

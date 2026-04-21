@@ -1,0 +1,34 @@
+{
+  "name": "Package",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nombre del paquete"
+    },
+    "description": {
+      "type": "string",
+      "description": "Descripci\u00f3n del paquete"
+    },
+    "services": {
+      "type": "array",
+      "description": "Lista de IDs de servicios incluidos",
+      "items": {
+        "type": "string"
+      }
+    },
+    "price": {
+      "type": "number",
+      "description": "Precio del paquete"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Si el paquete est\u00e1 activo"
+    }
+  },
+  "required": [
+    "name",
+    "price"
+  ]
+}
