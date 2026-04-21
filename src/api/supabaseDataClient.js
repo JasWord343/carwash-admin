@@ -101,6 +101,7 @@ function serializeEntity(entityName, payload) {
         duration_minutes: payload.duration_minutes ? Number(payload.duration_minutes) : null,
       };
     case "Package":
+      delete basePayload.services;
       return {
         ...basePayload,
         price: castNumber(payload.price) ?? 0,

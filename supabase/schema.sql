@@ -123,59 +123,75 @@ alter table public.expenses enable row level security;
 alter table public.daily_services enable row level security;
 alter table public.budgets enable row level security;
 
-create policy "authenticated users can read profiles"
+drop policy if exists "authenticated users can read own profile" on public.profiles;
+create policy "authenticated users can read own profile"
 on public.profiles for select
 to authenticated
-using (true);
+using (auth.uid() = id);
 
-create policy "authenticated users can manage profiles"
-on public.profiles for all
+drop policy if exists "authenticated users can insert own profile" on public.profiles;
+create policy "authenticated users can insert own profile"
+on public.profiles for insert
 to authenticated
-using (true)
-with check (true);
+with check (auth.uid() = id);
 
+drop policy if exists "authenticated users can update own profile" on public.profiles;
+create policy "authenticated users can update own profile"
+on public.profiles for update
+to authenticated
+using (auth.uid() = id)
+with check (auth.uid() = id);
+
+drop policy if exists "authenticated users can manage clients" on public.clients;
 create policy "authenticated users can manage clients"
 on public.clients for all
 to authenticated
 using (true)
 with check (true);
 
+drop policy if exists "authenticated users can manage services" on public.services;
 create policy "authenticated users can manage services"
 on public.services for all
 to authenticated
 using (true)
 with check (true);
 
+drop policy if exists "authenticated users can manage packages" on public.packages;
 create policy "authenticated users can manage packages"
 on public.packages for all
 to authenticated
 using (true)
 with check (true);
 
+drop policy if exists "authenticated users can manage appointments" on public.appointments;
 create policy "authenticated users can manage appointments"
 on public.appointments for all
 to authenticated
 using (true)
 with check (true);
 
+drop policy if exists "authenticated users can manage payments" on public.payments;
 create policy "authenticated users can manage payments"
 on public.payments for all
 to authenticated
 using (true)
 with check (true);
 
+drop policy if exists "authenticated users can manage expenses" on public.expenses;
 create policy "authenticated users can manage expenses"
 on public.expenses for all
 to authenticated
 using (true)
 with check (true);
 
+drop policy if exists "authenticated users can manage daily services" on public.daily_services;
 create policy "authenticated users can manage daily services"
 on public.daily_services for all
 to authenticated
 using (true)
 with check (true);
 
+drop policy if exists "authenticated users can manage budgets" on public.budgets;
 create policy "authenticated users can manage budgets"
 on public.budgets for all
 to authenticated

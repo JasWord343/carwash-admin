@@ -7,6 +7,7 @@ import {
   CreditCard,
   FileText,
   LayoutDashboard,
+  LogOut,
   Menu,
   Package,
   Receipt,
@@ -15,6 +16,7 @@ import {
   X,
 } from "lucide-react";
 
+import { useAuth } from "@/lib/AuthContext";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -31,6 +33,7 @@ const navItems = [
 
 export default function Sidebar() {
   const location = useLocation();
+  const { logout, user } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -77,13 +80,41 @@ export default function Sidebar() {
         })}
       </nav>
 
-      <button
-        onClick={() => setCollapsed(!collapsed)}
-        className="hidden items-center justify-center border-t border-sidebar-border p-3 text-sidebar-foreground transition-colors hover:text-sidebar-primary lg:flex"
-        type="button"
-      >
-        <Menu className="h-5 w-5" />
-      </button>
+      <div className="border-t border-sidebar-border p-3">
+        {!collapsed && user ? (
+          <div className="mb-3 rounded-lg bg-sidebar-accent/60 px-3 py-2 text-xs text-sidebar-foreground/80">
+            <p className="font-medium text-sidebar-foreground">{user.name || user.email}</p>
+            <p className="truncate">{user.email}</p>
+          </div>
+        ) : null}
+
+        <div className={cn("flex gap-2", collapsed && "flex-col")}>
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className="hidden flex-1 items-center justify-center rounded-lg border border-sidebar-border p-2 text-sidebar-foreground transition-colors hover:text-sidebar-primary lg:flex"
+            type="button"
+            title="Contraer menu"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+
+          <button
+            onClick={() => {
+              setMobileOpen(false);
+              logout();
+            }}
+            className={cn(
+              "flex items-center justify-center gap-2 rounded-lg border border-sidebar-border px-3 py-2 text-sm text-sidebar-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-primary",
+              collapsed ? "w-full" : "flex-1",
+            )}
+            type="button"
+            title="Cerrar sesion"
+          >
+            <LogOut className="h-4 w-4" />
+            {!collapsed && <span>Cerrar sesion</span>}
+          </button>
+        </div>
+      </div>
     </div>
   );
 
