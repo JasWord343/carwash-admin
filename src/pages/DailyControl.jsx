@@ -22,7 +22,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
-const CUENTA_TRANSFERENCIA = "Cuenta: 0000 0000 0000 0000 | Banco: Tu banco | A nombre de: CarWash";
+const CLABE_MERCADO_PAGO = "722969010227697113";
+const GOOGLE_MAPS_REVIEW_LINK = "https://maps.app.goo.gl/hqZ715T4NiExmDbT9";
 
 const statusConfig = {
   pending: { label: "Pendiente", color: "bg-yellow-100 text-yellow-700 border-yellow-200", icon: Clock },
@@ -81,9 +82,9 @@ export default function DailyControl() {
     }
 
     const msg =
-      entry.payment_method === "transfer"
-        ? `Hola ${entry.client_name || "cliente"}, tu vehiculo ya esta listo en *CarWash*.\n\n*Servicio:* ${entry.service_name}\n*Total a pagar:* $${entry.price?.toLocaleString()}\n\n*Datos para transferencia:*\n${CUENTA_TRANSFERENCIA}\n\nGracias por tu preferencia.`
-        : `Hola ${entry.client_name || "cliente"}, tu vehiculo ya esta listo en *CarWash*.\n\n*Servicio:* ${entry.service_name}\n*Total:* $${entry.price?.toLocaleString()}\n\nTe esperamos.`;
+      entry.payment_method === "transfer" || entry.payment_method === "card"
+        ? `Hola ${entry.client_name || "cliente"}, ya tenemos tu vehiculo listo. Fue un gusto atenderte.\n\n*Servicio:* ${entry.service_name}\n*Total:* $${entry.price?.toLocaleString()}\n*CLABE Mercado Pago:* ${CLABE_MERCADO_PAGO}\n\nSi te gusto nuestro servicio, nos ayudaria mucho tu resena:\n${GOOGLE_MAPS_REVIEW_LINK}\n\nGracias por tu confianza.`
+        : `Hola ${entry.client_name || "cliente"}, ya tenemos tu vehiculo listo. Fue un gusto atenderte.\n\n*Servicio:* ${entry.service_name}\n*Total:* $${entry.price?.toLocaleString()}\n\nSi te gusto nuestro servicio, nos ayudaria mucho tu resena:\n${GOOGLE_MAPS_REVIEW_LINK}\n\nGracias por tu confianza.`;
 
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
   };

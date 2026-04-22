@@ -16,6 +16,7 @@ const statusColors = {
   accepted: "bg-green-100 text-green-700",
   rejected: "bg-red-100 text-red-700",
 };
+const GOOGLE_MAPS_REVIEW_LINK = "https://maps.app.goo.gl/hqZ715T4NiExmDbT9";
 
 export default function Budgets() {
   const [showForm, setShowForm] = useState(false);
@@ -48,8 +49,8 @@ export default function Budgets() {
       return;
     }
 
-    const items = (budget.items || []).map((item) => `- ${item.name}: $${item.price} x${item.quantity || 1}`).join("\n");
-    const msg = `Hola ${client.name}, te envio tu presupuesto de CarWash:\n\n${items}\n\n*Total: $${budget.total?.toLocaleString()}*\n${budget.valid_until ? `Valido hasta: ${budget.valid_until}` : ""}`;
+    const items = (budget.items || []).map((item) => `- ${item.name} x${item.quantity || 1}`).join("\n");
+    const msg = `Hola ${client.name}, con mucho gusto te compartimos tu presupuesto:\n\n${items}\n\n*Total:* $${budget.total?.toLocaleString()}${budget.valid_until ? `\n*Valido hasta:* ${budget.valid_until}` : ""}\n\nSi ya trabajaste con nosotros, nos ayudaria mucho tu resena:\n${GOOGLE_MAPS_REVIEW_LINK}\n\nQuedamos atentos para ayudarte.`;
     window.open(`https://wa.me/${client.phone.replace(/\D/g, "")}?text=${encodeURIComponent(msg)}`, "_blank");
 
     if (budget.status === "draft") {
