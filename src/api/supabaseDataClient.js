@@ -19,6 +19,10 @@ function castNumber(value) {
   return Number(value);
 }
 
+function hasField(payload, fieldName) {
+  return Object.prototype.hasOwnProperty.call(payload, fieldName);
+}
+
 function normalizeEntity(entityName, row) {
   if (!row) {
     return null;
@@ -95,44 +99,50 @@ function serializeEntity(entityName, payload) {
 
   switch (entityName) {
     case "Service":
-      return {
-        ...basePayload,
-        price: castNumber(payload.price) ?? 0,
-        duration_minutes: payload.duration_minutes ? Number(payload.duration_minutes) : null,
-      };
+      if (hasField(payload, "price")) {
+        basePayload.price = castNumber(payload.price) ?? 0;
+      }
+      if (hasField(payload, "duration_minutes")) {
+        basePayload.duration_minutes = payload.duration_minutes ? Number(payload.duration_minutes) : null;
+      }
+      return basePayload;
     case "Package":
       delete basePayload.services;
-      return {
-        ...basePayload,
-        price: castNumber(payload.price) ?? 0,
-        service_ids: payload.service_ids ?? payload.services ?? [],
-      };
+      if (hasField(payload, "price")) {
+        basePayload.price = castNumber(payload.price) ?? 0;
+      }
+      if (hasField(payload, "service_ids") || hasField(payload, "services")) {
+        basePayload.service_ids = payload.service_ids ?? payload.services ?? [];
+      }
+      return basePayload;
     case "Appointment":
-      return {
-        ...basePayload,
-        amount: castNumber(payload.amount) ?? 0,
-      };
+      if (hasField(payload, "amount")) {
+        basePayload.amount = castNumber(payload.amount) ?? 0;
+      }
+      return basePayload;
     case "Payment":
-      return {
-        ...basePayload,
-        amount: castNumber(payload.amount) ?? 0,
-      };
+      if (hasField(payload, "amount")) {
+        basePayload.amount = castNumber(payload.amount) ?? 0;
+      }
+      return basePayload;
     case "Expense":
-      return {
-        ...basePayload,
-        amount: castNumber(payload.amount) ?? 0,
-      };
+      if (hasField(payload, "amount")) {
+        basePayload.amount = castNumber(payload.amount) ?? 0;
+      }
+      return basePayload;
     case "DailyService":
-      return {
-        ...basePayload,
-        price: castNumber(payload.price) ?? 0,
-      };
+      if (hasField(payload, "price")) {
+        basePayload.price = castNumber(payload.price) ?? 0;
+      }
+      return basePayload;
     case "Budget":
-      return {
-        ...basePayload,
-        total: castNumber(payload.total) ?? 0,
-        items: payload.items ?? [],
-      };
+      if (hasField(payload, "total")) {
+        basePayload.total = castNumber(payload.total) ?? 0;
+      }
+      if (hasField(payload, "items")) {
+        basePayload.items = payload.items ?? [];
+      }
+      return basePayload;
     default:
       return basePayload;
   }
